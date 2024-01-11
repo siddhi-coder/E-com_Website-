@@ -6,13 +6,13 @@
         <form>
             <!-- Email input -->
             <div class="form-outline mb-4">
-              <input type="email" id="form2Example1" class="form-control" />
-              <label class="form-label" for="form2Example1">Email address</label>
+              <input type="text" id="form2Example1" name="uname" class="form-control" />
+              <label class="form-label" for="form2Example1">Username </label>
             </div>
           
             <!-- Password input -->
             <div class="form-outline mb-4">
-              <input type="password" id="form2Example2" class="form-control" />
+              <input type="password" id="form2Example2" name="passwd" class="form-control" />
               <label class="form-label" for="form2Example2">Password</label>
             </div>
           
@@ -33,12 +33,12 @@
             </div>
           
             <!-- Submit button -->
-            <button type="button" class="btn btn-danger btn-block mb-4">Sign in</button>
-            <button type="button" class="btn btn-danger btn-block mb-4">Cancel</button>
+            <button type="button" class="btn btn-danger btn-block mb-4"><a class ="text-white text-decoration-none" href="{% url 'loginuser' %}">Sign in</a></button>
+            <button type="button" class="btn btn-danger btn-block mb-4"><a class ="text-white text-decoration-none"  href="{% url 'index' %}">Cancel</a></button>
           
             <!-- Register buttons -->
             <div class="text-center">
-              <p>Not a member? <a href="#!" class="text-danger">Register</a></p>
+              <p>Not a member? <a href="{% url 'registeruser' %}" class="text-danger">Register</a></p>
               <p>or sign up with:</p>
               <button type="button" class="btn btn-link btn-floating mx-1">
                 <i class="bi bi-facebook text-danger"></i>
