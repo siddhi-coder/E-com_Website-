@@ -1,31 +1,57 @@
-from django.shortcuts import render
-from datetime import datetime
+from django.shortcuts import render,redirect , get_object_or_404
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate , login , logout
 # Create your views here.
 
 
 def index(req):
-    print("Current Date Time : ", datetime.now())
-    dt = datetime.now()
-    hour = dt.hour
-    if 5<=hour<12:
-        greeting="Good Morning"
-    elif 12<=hour<16:
-        greeting="Good Afternoon"
-    elif 16<=hour <20: 
-        greeting="Good Evening"
-    else : 
-        greeting="Good Night"
-    print(greeting)
-    context={"greeting" : greeting}
-    return render(req, "index.html",context)
+    return render(req, "index.html")
 
 
 def loginuser(req):
-    return render(req, "loginuser.html")
+    if req.method == "POST":  # Corrected method to lowercase "post"
+        uname = req.POST.get("uname")
+        passwd = req.POST.get("passwd")
+        context = {}
+        if not (uname and passwd):
+            context['errormessage'] = "Fields can't be empty"
+            return render(req, "loginuser.html", context)
+        else:
+            userdata = authenticate(username=uname, password=passwd)
+            if userdata is not None:
+                login(req, userdata)
+                return redirect("/")
+            else:
+                context['errormessage'] = "Invalid username or password"
+                return render(req, "loginuser.html", context)
+    else:
+        return render(req, "loginuser.html")
 
 
 def registeruser(req):
-    return render(req, "registeruser.html")
+    if req.method == "POST":
+        uname = req.POST["uname"]
+        passwd = req.POST["passwd"]
+        cpasswd = req.POST["cpasswd"]
+        context = {}
+        if uname == "" or passwd == "" or cpasswd == "":
+            context['errormessage'] = "Field can't be empty"
+            return render(req,"registeruser.html" , context)
+        elif passwd != cpasswd :
+            context['errormessage'] ="Password doesn't match"
+            return render(req,"registeruser.html" , context)
+        else:
+            try:
+                # Create the user if everything is fine
+                userdata = User.objects.create(username=uname, password=passwd)
+                userdata.set_password(passwd)
+                userdata.save()
+                return redirect("/")
+            except:
+                context["errormessage"] = "User Already exists"
+                return render(req, "registeruser.html" , context)
+    else:
+        return render(req, "registeruser.html")
 
 
 def aboutus(req):
