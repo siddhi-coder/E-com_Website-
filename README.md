@@ -8,3 +8,15 @@ Product catalog: Browse through a variety of products with details and pricing.<
 Shopping cart: Add products to the cart, update quantities, and proceed to checkout.<br>
 Order processing: Complete the checkout process and receive confirmation of orders.<br>
 Admin interface: Manage products, orders, and users through the Django admin panel.<br>
+
+
+<h1><b>Usage</b></h1> <br>
+Run the development server:
+
+python manage.py runserver
+
+The website will be accessible at http://127.0.0.1:8000/.
+
+Access the admin panel at http://127.0.0.1:8000/admin/ and log in with the superuser credentials.
+
+Populate the database with products and manage orders through the admin panel.
