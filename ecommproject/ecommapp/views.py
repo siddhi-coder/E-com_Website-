@@ -17,10 +17,12 @@ def loginuser(req):
             context['errormessage'] = "Fields can't be empty"
             return render(req, "loginuser.html", context)
         else:
+            username = uname
             userdata = authenticate(username=uname, password=passwd)
+            context = {"username" : username}
             if userdata is not None:
                 login(req, userdata)
-                return redirect("/")
+                return render(req,"index.html",context)
             else:
                 context['errormessage'] = "Invalid username or password"
                 return render(req, "loginuser.html", context)
@@ -46,7 +48,7 @@ def registeruser(req):
                 userdata = User.objects.create(username=uname, password=passwd)
                 userdata.set_password(passwd)
                 userdata.save()
-                return redirect("/")
+                return redirect("loginuser")
             except:
                 context["errormessage"] = "User Already exists"
                 return render(req, "registeruser.html" , context)

@@ -96,6 +96,13 @@
                   <a class="nav-link disabled" aria-disabled="true">Logout</a>
                 </li>
               </ul>
+              {% if username %}
+              <strong class="text-white p-3">
+                Welcome {{username}} !!
+              </strong>
+              {% else %}
+              <strong  class="text-white p-3">Welcome Guest !!</strong>
+              {% endif %}
               <form class="d-flex" role="search">
                 <input
                   class="form-control me-2"
