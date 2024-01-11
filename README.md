@@ -11,7 +11,9 @@ Admin interface: Manage products, orders, and users through the Django admin pan
 
 
 <h1><b>Usage</b></h1> <br>
-Run the development server:
+Run the development server: 
+
+<br>
 
 python manage.py runserver
 
