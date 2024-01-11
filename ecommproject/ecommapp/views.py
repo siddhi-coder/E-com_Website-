@@ -5,7 +5,9 @@ from django.contrib.auth import authenticate , login , logout
 
 
 def index(req):
-    return render(req, "index.html")
+    username = req.user.username
+    context = {"username":username}
+    return render(req, "index.html" ,context)
 
 
 def loginuser(req):
@@ -62,3 +64,7 @@ def aboutus(req):
 
 def contactus(req):
     return render(req, "contactus.html")
+
+def userlogout(req):
+    logout(req)
+    return redirect("/")

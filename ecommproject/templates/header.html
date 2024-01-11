@@ -60,22 +60,28 @@
                     <li><a class="dropdown-item" href="#">Groceries</a></li>
                   </ul>
                 </li>
-                <li class="nav-item">
-                  <a
-                    class="nav-link active"
-                    aria-current="page"
-                    href="{% url 'registeruser' %}"
-                    >Register</a
-                  >
-                </li>
-                <li class="nav-item">
-                  <a
-                    class="nav-link active"
-                    aria-current="page"
-                    href="{% url 'loginuser' %}"
-                    >Login</a
-                  >
-                </li>
+                {% if user.is_authenticated %}
+                  <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'userlogout' %}" aria-current="page">Logout</a>
+                  </li>
+                {% else %}
+                  <li class="nav-item">
+                    <a
+                      class="nav-link active"
+                      aria-current="page"
+                      href="{% url 'registeruser' %}"
+                      >Register</a
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <a
+                      class="nav-link active"
+                      aria-current="page"
+                      href="{% url 'loginuser' %}"
+                      >Login</a
+                    >
+                  </li>
+                {% endif %}
                 <li class="nav-item">
                   <a
                     class="nav-link active"
@@ -91,9 +97,6 @@
                     href="{% url 'aboutus' %}"
                     >About Us</a
                   >
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link disabled" aria-disabled="true">Logout</a>
                 </li>
               </ul>
               {% if username %}
