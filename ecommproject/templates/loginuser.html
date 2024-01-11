@@ -3,7 +3,13 @@
 <div class="col-md-4 mt-5 mx-auto shadow p-5 mb-5">
     <h1>Login</h1>
     <div class="row">
-        <form>
+      {% if errormessage %}
+      <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+        <strong>Error!</strong> {{errormessage}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endif %}
+        <form method="post" action="" enctype="multipart/form-data" >
             <!-- Email input -->
             <div class="form-outline mb-4">
               <input type="text" id="form2Example1" name="uname" class="form-control" />

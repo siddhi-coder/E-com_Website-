@@ -22,7 +22,14 @@
           <div class="col-lg-6 mb-5 mb-lg-0">
             <div class="card">
               <div class="card-body py-5 px-md-5">
-                <form>
+                {% if errormessage %}
+                <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                  <strong>Error!</strong> {{errormessage}}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+                <form method="post" action="" enctype="multipart/form-data">
+                  {% csrf_token %}
                   <!-- 2 column grid layout with text inputs for the first and last names -->
                   <div class="row">
                       <div class="form-outline mb-4">
@@ -52,7 +59,7 @@
   
                   <!-- Submit button -->
                   <button type="submit" class="btn btn-danger btn-block mb-4">
-                    <a href="{% url 'registeruser' %}">Sign up</a>
+                    <a class="text-white text-decoration-none"href="{% url 'registeruser' %}">Sign up</a>
                   </button>
                   <button type="button" class="btn btn-danger btn-block mb-4"><a class="text-white text-decoration-none" href="{% url 'index' %}">Cancel</a></button>
   
