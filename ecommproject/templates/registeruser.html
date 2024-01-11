@@ -58,10 +58,19 @@
                   </div>
   
                   <!-- Submit button -->
-                  <button type="submit" class="btn btn-danger btn-block mb-4">
+                  <!-- <button type="submit" class="btn btn-danger btn-block mb-4">
                     <a class="text-white text-decoration-none"href="{% url 'registeruser' %}">Sign up</a>
-                  </button>
-                  <button type="button" class="btn btn-danger btn-block mb-4"><a class="text-white text-decoration-none" href="{% url 'index' %}">Cancel</a></button>
+                  </button> -->
+                  <div class="row">
+                    <div class="col mb-4">
+                      <center>
+                        <input type="submit" value="Log In" class="btn btn-danger btn-block">
+                        <button type="button" class="btn btn-danger btn-block">
+                            <a class="text-white text-decoration-none" href="{% url 'index' %}">Cancel</a>
+                        </button>
+                      </center>
+                    </div>
+                </div>                
   
                   <!-- Register buttons -->
                   <div class="text-center">
