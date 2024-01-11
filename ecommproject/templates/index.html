@@ -1,0 +1,64 @@
+{% include 'header.html' %}
+<title>Shopworks</title>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3 bg-danger-subtle p-3">
+      <h5>Fliter By Category</h5>
+      <p><a href="#">By Mobile</a></p>
+      <p><a href="#">By Clothes</a></p>
+      <p><a href="#">By Shoes</a></p>
+      <hr />
+      <h5>Fliter By Price</h5>
+      <form action="" method="post">
+        {% csrf_token %}
+        <div class="mb-2">
+          <label class="form-label"><strong>Min : </strong></label>
+          <input
+            class="form-control"
+            type="number"
+            name="min"
+            placeholder="Minimum Amount"
+          />
+        </div>
+        <div class="mb-2">
+          <label class="form-label"><strong>Max : </strong></label>
+          <input
+            class="form-control"
+            type="number"
+            name="max"
+            placeholder="Maximum Amount"
+          />
+        </div>
+        <div class="mb-2">
+          <input class="btn btn-danger" type="submit" value="Search" />
+        </div>
+      </form>
+      <h5 class="mt-3">Sort By Price</h5>
+      <hr />
+      <p><a href="#">High to low</a></p>
+      <p><a href="#">low to High</a></p>
+    </div>
+    <div class="col-md-9 bg-light mt-3 p-3">
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="card" style="width: 18rem">
+            <img src="https://nairametrics.com/wp-content/uploads/2022/02/Laptop-.jpg   " class="card-img-top" alt="..." />
+            <div class="card-body">
+              <h5 class="card-title">Card title</h5>
+              <p class="card-text">
+                Some quick example text to build on the card title and make up
+                the bulk of the card's content.
+              </p>
+              <a href="#" class="btn btn-danger">Add to Cart</a>
+              <a href="#" class="btn btn-danger">Buy Now</a>
+            </div>
+          </div>
+        </div>
+          </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include 'footer.html' %}
