@@ -1,6 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
-# Create your models here.
+
+class CustomManager(models.Manager):
+    #method
+    def mobile_list(self):
+        return self.filter(category__exact ="Mobile")
+    def clothes_list(self):
+        return self.filter(category__exact ="Clothes")
+    def shoes_list(self):
+        return self.filter(category__exact ="Shoes")
+        
 class Product(models.Model):
     userid = models.ForeignKey(User , on_delete = models.CASCADE , null = True , blank = True)
     productid = models.IntegerField(primary_key = True)
@@ -10,6 +19,7 @@ class Product(models.Model):
     description = models.TextField(max_length = 100)
     price = models.FloatField()
     image=models.ImageField(upload_to='product/')
+    objects = models.Manager()
 
 class Cart(models.Model):
     userid = models.ForeignKey(User , on_delete = models.CASCADE , null = True , blank = True)

@@ -1,12 +1,13 @@
 from django.shortcuts import render,redirect , get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate , login , logout
-# Create your views here.
+from .models import Product , Cart , Order
 
 
 def index(req):
     username = req.user.username
-    context = {"username":username}
+    allproducts = Product.objects.all()
+    context = {"username":username , "allproducts":allproducts}
     return render(req, "index.html" ,context)
 
 
