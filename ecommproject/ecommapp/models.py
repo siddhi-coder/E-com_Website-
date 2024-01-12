@@ -20,6 +20,7 @@ class Product(models.Model):
     price = models.FloatField()
     image=models.ImageField(upload_to='product/')
     objects = models.Manager()
+    prod = CustomManager()
 
 class Cart(models.Model):
     userid = models.ForeignKey(User , on_delete = models.CASCADE , null = True , blank = True)

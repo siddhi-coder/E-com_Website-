@@ -69,3 +69,33 @@ def contactus(req):
 def userlogout(req):
     logout(req)
     return redirect("/")
+
+def mobile_list_view(req):
+    if req.method == "GET":
+        allproducts = Product.prod.mobile_list()
+        context = {"allproducts":allproducts}
+        return render(req,"index.html", context)
+    else :
+        allproducts = Product.objects.all()
+        context = {"allproducts":allproducts}
+        return render(req,"index.html", context)
+
+def clothes_list_view(req):
+    if req.method == "GET":
+        allproducts = Product.prod.clothes_list()
+        context = {"allproducts":allproducts}
+        return render(req,"index.html", context)
+    else :
+        allproducts = Product.objects.all()
+        context = {"allproducts":allproducts}
+        return render(req,"index.html", context)
+
+def shoes_list_view(req):
+    if req.method == "GET":
+        allproducts = Product.prod.shoes_list()
+        context = {"allproducts":allproducts}
+        return render(req,"index.html", context)
+    else :
+        allproducts = Product.objects.all()
+        context = {"allproducts":allproducts}
+        return render(req,"index.html", context)

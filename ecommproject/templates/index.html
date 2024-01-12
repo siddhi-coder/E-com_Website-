@@ -4,9 +4,9 @@
   <div class="row">
     <div class="col-md-3 bg-danger-subtle p-3">
       <h5>Fliter By Category</h5>
-      <p><a href="#">By Mobile</a></p>
-      <p><a href="#">By Clothes</a></p>
-      <p><a href="#">By Shoes</a></p>
+      <p><a href="{% url 'mobile_list_view' %}">By Mobiles</a></p>
+      <p><a href="{% url 'clothes_list_view' %}">By Clothes</a></p>
+      <p><a href="{% url 'shoes_list_view' %}">By Shoes</a></p>
       <hr />
       <h5>Fliter By Price</h5>
       <form action="" method="post">
