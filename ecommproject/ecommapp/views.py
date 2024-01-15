@@ -117,7 +117,7 @@ def range_view(req):
             return render(req,'index.html',context)
 
 def allsortorderview(req):
-    sort_option = req.Get.get("sort")
+    sort_option = req.GET.get("sort")
     if sort_option =="high_to_low":
         allproducts =Product.prod.order_by("-price")
     elif sort_option =="low_to_high":
