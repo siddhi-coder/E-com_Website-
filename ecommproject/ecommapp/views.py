@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect , get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate , login , logout
 from .models import Product , Cart , Order
+from django.db.models import Q
 
 
 def index(req):
@@ -128,3 +129,16 @@ def allsortorderview(req):
     context = {'allproducts' :allproducts}
     return render(req , "index.html" , context)
 
+def searchproduct(req):
+    query = req.GET.get('q')
+    if query :
+        allproducts = Product.objects.filter(
+            Q(product_name__icontains = query)|
+            Q(category__icontains = query)|
+            Q(price__icontains = query)|
+            Q(description__icontains = query)
+        )
+    else:   
+        allproducts = Product.objects.all()
+    context ={"allproducts":allproducts , "query":query}
+    return render(req,"index.html",context)
