@@ -99,3 +99,19 @@ def shoes_list_view(req):
         allproducts = Product.objects.all()
         context = {"allproducts":allproducts}
         return render(req,"index.html", context)
+    
+def range_view(req):
+    if req.method == 'GET':
+        return render(req,'index.html')
+    else:
+        r1 = req.POST.get("min")
+        r2 = req.POST.get("max")
+        if r1 is not None and r2 is not None and r1.isdigit() and r2.isdigit():
+            allproducts=Product.prod.get_price_range(r1,r2)
+            context = {'allproducts':allproducts}
+            return render(req,'index.html',context)
+        else :
+            allproducts=Product.objects.all()
+            context = {'allproducts':allproducts}
+            return render(req,'index.html',context)
+

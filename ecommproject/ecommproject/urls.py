@@ -31,4 +31,5 @@ urlpatterns = [
     path("shoes_list_view/", views.shoes_list_view, name="shoes_list_view"),
     path("clothes_list_view/", views.clothes_list_view, name="clothes_list_view"),
     path("mobile_list_view", views.mobile_list_view, name="mobile_list_view"),
+    path("range_view", views.range_view, name="range_view"),
 ]+static(settings.MEDIA_URL , document_root  = settings.MEDIA_ROOT)

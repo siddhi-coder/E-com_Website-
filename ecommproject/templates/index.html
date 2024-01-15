@@ -9,7 +9,7 @@
       <p><a href="{% url 'shoes_list_view' %}">By Shoes</a></p>
       <hr />
       <h5>Fliter By Price</h5>
-      <form action="" method="post">
+      <form action="{% url 'range_view' %}" method="post">
         {% csrf_token %}
         <div class="mb-2">
           <label class="form-label"><strong>Min : </strong></label>

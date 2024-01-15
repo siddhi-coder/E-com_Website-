@@ -9,6 +9,10 @@ class CustomManager(models.Manager):
         return self.filter(category__exact ="Clothes")
     def shoes_list(self):
         return self.filter(category__exact ="Shoes")
+    def get_price_range(self ,r1 , r2):
+        return self.filter(price__range = (r1,r2))
+
+
         
 class Product(models.Model):
     userid = models.ForeignKey(User , on_delete = models.CASCADE , null = True , blank = True)
