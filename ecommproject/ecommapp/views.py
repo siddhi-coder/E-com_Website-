@@ -15,6 +15,7 @@ def loginuser(req):
     if req.method == "POST":  # Corrected method to lowercase "post"
         uname = req.POST.get("uname")
         passwd = req.POST.get("passwd")
+        allproducts = Product.objects.all()
         context = {}
         if not (uname and passwd):
             context['errormessage'] = "Fields can't be empty"
@@ -22,7 +23,7 @@ def loginuser(req):
         else:
             username = uname
             userdata = authenticate(username=uname, password=passwd)
-            context = {"username" : username}
+            context = {"username" : username , "allproducts":allproducts}
             if userdata is not None:
                 login(req, userdata)
                 return render(req,"index.html",context)
