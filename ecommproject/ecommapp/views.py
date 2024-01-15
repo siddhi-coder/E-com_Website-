@@ -116,3 +116,15 @@ def range_view(req):
             context = {'allproducts':allproducts}
             return render(req,'index.html',context)
 
+def allsortorderview(req):
+    sort_option = req.Get.get("sort")
+    if sort_option =="high_to_low":
+        allproducts =Product.prod.order_by("-price")
+    elif sort_option =="low_to_high":
+        allproducts =Product.prod.order_by("price")
+    else:
+        allproducts =Product.objects.all()
+    
+    context = {'allproducts' :allproducts}
+    return render(req , "index.html" , context)
+
