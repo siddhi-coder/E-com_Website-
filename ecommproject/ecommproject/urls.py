@@ -33,4 +33,5 @@ urlpatterns = [
     path("mobile_list_view", views.mobile_list_view, name="mobile_list_view"),
     path("range_view", views.range_view, name="range_view"),
     path("allsortorderview", views.allsortorderview, name="allsortorderview"),
+     path("searchproduct", views.searchproduct, name="searchproduct"),
 ]+static(settings.MEDIA_URL , document_root  = settings.MEDIA_ROOT)
