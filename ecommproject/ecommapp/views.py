@@ -162,13 +162,17 @@ def cart(req):
                "total" : totalprice}
     return render(req, "cart.html",context)
 
-def addtocart(req , productid):
-    allproducts = get_object_or_404(Product , productid = productid)
-    cartitem ,created = cart.objects.get_or_create(productid = allproducts)
-    if not created :
-        cartitem.quantity += 1
-    else :
-        cartitem.quantity = 1
-    cartitem.save()
-    return redirect("/cart")
+def addtocart(productid):
+    # Assuming productid is the field that uniquely identifies a product
+    allproducts = get_object_or_404(Product, productid=productid)
 
+    # Use the correct field to filter the cart item
+    cartitem, created = Cart.objects.get_or_create(productid=allproducts)
+
+    if not created:
+        cartitem.quantity += 1
+    else:
+        cartitem.quantity = 1
+
+    cartitem.save()
+    return redirect("cart")
