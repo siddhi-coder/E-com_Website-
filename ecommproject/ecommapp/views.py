@@ -68,6 +68,8 @@ def aboutus(req):
 def contactus(req):
     return render(req, "contactus.html")
 
+def cart(req):
+    return render(req, "cart.html")
 def userlogout(req):
     logout(req)
     return redirect("/")
