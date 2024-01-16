@@ -68,8 +68,6 @@ def aboutus(req):
 def contactus(req):
     return render(req, "contactus.html")
 
-def cart(req):
-    return render(req, "cart.html")
 def userlogout(req):
     logout(req)
     return redirect("/")
@@ -131,6 +129,7 @@ def allsortorderview(req):
     context = {'allproducts' :allproducts}
     return render(req , "index.html" , context)
 
+# search product
 def searchproduct(req):
     query = req.GET.get('q')
     errormessage = ""
@@ -151,3 +150,14 @@ def searchproduct(req):
     context = {"allproducts": allproducts, "query": query, "errormessage": errormessage}
     return render(req, "index.html", context)
 
+# cart
+def cart(req):
+    allcarts = Cart.objects.all()
+    totalprice = 0
+    for i in allcarts:
+        totalprice += i.productid.price * i.quantity
+    length = len(allcarts)
+    context = {'allcarts':allcarts , 
+               "items" :length ,
+               "total" : totalprice}
+    return render(req, "cart.html",context)
