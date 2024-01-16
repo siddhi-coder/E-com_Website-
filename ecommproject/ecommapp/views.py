@@ -162,7 +162,7 @@ def cart(req):
                "total" : totalprice}
     return render(req, "cart.html",context)
 
-def addtocart(productid):
+def addtocart(request, productid):
     # Assuming productid is the field that uniquely identifies a product
     allproducts = get_object_or_404(Product, productid=productid)
 
@@ -175,4 +175,4 @@ def addtocart(productid):
         cartitem.quantity = 1
 
     cartitem.save()
-    return redirect("cart")
+    return redirect("/cart")
