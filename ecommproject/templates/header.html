@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,6 +10,7 @@
       integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
       crossorigin="anonymous"
     />
+    <link rel="shortcut icon" href="{% static 'logo.png' %}" type="image/x-icon">
   </head>
   <body>
     <div class="container-fluid">
@@ -107,12 +109,13 @@
               {% else %}
               <strong  class="text-white p-3">Welcome Guest !!</strong>
               {% endif %}
-              <form class="d-flex" role="search">
+              <form class="d-flex" role="search" method="get" action="{% url 'searchproduct' %}">
                 <input
                   class="form-control me-2"
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
+                  name ="q" value="{{query}}"
                 />
                 <button class="btn btn-danger" type="submit">
                   Search

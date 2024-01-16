@@ -39,6 +39,10 @@
       <p><a href="{% url 'allsortorderview' %}?sort=low_to_high">low to High</a></p>
     </div>
     <div class="col-md-9 bg-light mt-3 p-3">
+      {% if query %}
+      <center><h5>Search Result for : <strong>{{query}}</strong></h5></center>
+      <center><h2>{{errormessage}}</h2></center> 
+      {% endif %}
       <div class="row">
         {% for i in allproducts %}
         <div class="col-md-4 mb-4">

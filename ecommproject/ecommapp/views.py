@@ -131,14 +131,21 @@ def allsortorderview(req):
 
 def searchproduct(req):
     query = req.GET.get('q')
-    if query :
+    errormessage = ""
+
+    if query:
         allproducts = Product.objects.filter(
-            Q(product_name__icontains = query)|
-            Q(category__icontains = query)|
-            Q(price__icontains = query)|
-            Q(description__icontains = query)
+            Q(product_name__icontains=query) |
+            Q(category__icontains=query) |
+            Q(price__icontains=query) |
+            Q(description__icontains=query)
         )
-    else:   
+        if len(allproducts) == 0 :
+            errormessage = "No result found"
+
+    else:
         allproducts = Product.objects.all()
-    context ={"allproducts":allproducts , "query":query}
-    return render(req,"index.html",context)
+
+    context = {"allproducts": allproducts, "query": query, "errormessage": errormessage}
+    return render(req, "index.html", context)
+
