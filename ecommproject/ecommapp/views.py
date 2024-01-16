@@ -170,4 +170,5 @@ def addtocart(req , productid):
     else :
         cartitem.quantity = 1
     cartitem.save()
+    return redirect("/cart")
 
