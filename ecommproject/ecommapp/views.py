@@ -161,3 +161,13 @@ def cart(req):
                "items" :length ,
                "total" : totalprice}
     return render(req, "cart.html",context)
+
+def addtocart(req , productid):
+    allproducts = get_object_or_404(Product , productid = productid)
+    cartitem ,created = cart.objects.get_or_create(productid = allproducts)
+    if not created :
+        cartitem.quantity += 1
+    else :
+        cartitem.quantity = 1
+    cartitem.save()
+
