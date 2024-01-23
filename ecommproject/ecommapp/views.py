@@ -198,18 +198,34 @@ def updateqty(req,qv,productid):
 
     return redirect('/cart')    
 
+from django.shortcuts import render
+import razorpay
+
 def placeorder(req):
     allcarts = Cart.objects.all()
     totalprice = 0
+
     for x in allcarts:
-        totalprice = totalprice + x.productid.price * x.quantity
+        totalprice += x.productid.price * x.quantity
+
+    # Convert totalprice to paise
+    totalprice_in_paise = int(totalprice * 100)
+
     length = len(allcarts)
     context = {"allcarts": allcarts, "total": totalprice, "items": length}
-    return render(req, "placeorder.html", context)
 
-def payment(req):
     client = razorpay.Client(auth=("rzp_test_ABvnCoddVobUGU", "xqaY5agbv5y2fcuL5Bblt7vV"))
 
-    data = { "amount": 500, "currency": "INR", "receipt": "order_rcptid_11" }
+    # Provide the correct amount in paise
+    data = {"amount": totalprice_in_paise, "currency": "INR", "receipt": "order_rcptid_11"}
+    
+    # Create Razorpay order
     payment = client.order.create(data=data)
-    return render(req, "payment.html")
+    
+    # Add payment details to the context
+    context["payment"] = payment
+    context["data"] = payment
+
+    # Ensure that only necessary parameters are passed to the render function
+    return render(req, "placeorder.html", context)
+
