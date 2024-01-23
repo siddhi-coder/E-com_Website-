@@ -1,4 +1,5 @@
 {% include 'header.html' %}
+{% load static %}
 <title>Ekart|Cart</title>
 <div class="container-fluid">
   <div class="row">
@@ -34,12 +35,14 @@
           currency: "INR",
           name: "Shopworks",
           description: "Payment Gateway",
-          image: "https://example.com/your_logo",
+          image: "{% static 'logo.png' %}",
           order_id: "{{data.id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
           handler: function (response) {
-            alert(response.razorpay_payment_id);
-            alert(response.razorpay_order_id);
-            alert(response.razorpay_signature);
+            alert("Payment Successfully Done")
+            // alert(response.razorpay_payment_id);
+            // alert(response.razorpay_order_id);
+            // alert(response.razorpay_signature);
+            window.location.href = window.location.origin
           },
           prefill: {
             name: "Gaurav Kumar",

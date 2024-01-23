@@ -198,8 +198,6 @@ def updateqty(req,qv,productid):
 
     return redirect('/cart')    
 
-from django.shortcuts import render
-import razorpay
 
 def placeorder(req):
     allcarts = Cart.objects.all()
