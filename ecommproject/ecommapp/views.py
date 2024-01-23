@@ -204,7 +204,12 @@ def placeorder(req):
     totalprice = 0
 
     for x in allcarts:
+        orderdata = Order.objects.create(
+            orderid = x.orderid , productid = x.productid , quantity = x.quantity
+        )
+        orderdata.save()
         totalprice += x.productid.price * x.quantity
+        x.delete()
 
     # Convert totalprice to paise
     totalprice_in_paise = int(totalprice * 100)
