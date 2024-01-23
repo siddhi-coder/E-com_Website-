@@ -14,8 +14,8 @@
                           <p class="card-text">Price: {{item.product_id.price}}</p>
                           <p>
                             <strong>QTY:</strong>
-                            <a href="updateqty/0/{{item.productid.productid}}"><button class="btn btn-danger">-</button></a>
-                            <input readonly type="number" value="{{item.quantity}}">
+                            <a href="   updateqty/0/{{item.productid.productid}}"><button class="btn btn-danger">-</button></a>
+                            <input  readonly type="number" value="{{item.quantity}}">
                             <a href="updateqty/1/{{item.productid.productid}}"><button class="btn btn-success">+</button></a>
                           </p>
                           <a href="removecart/{{item.productid.productid}}" class="btn btn-primary">Remove</a>
@@ -33,7 +33,7 @@
             <p><strong>Total ({{items}}):</strong> Rs. {{total}} </p>
             <hr>
             <p><strong>Total Amount:</strong> Rs. {{total}} </p>
-            <a href="{% url 'placeorder' %}"><button class = "btn btn-danger">Place Order</button></a>
+            <a href="#"><button class = "btn btn-danger">Make Payment</button></a>
         </div>
         
 

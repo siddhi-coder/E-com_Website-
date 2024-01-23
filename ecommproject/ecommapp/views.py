@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate , login , logout
 from .models import Product , Cart , Order
 from django.db.models import Q
+import razorpay
 
 
 def index(req):
@@ -176,3 +177,39 @@ def addtocart(request, productid):
 
     cartitem.save()
     return redirect("/cart")
+
+def removecart(req, productid):
+    cartitem = Cart.objects.filter(productid=productid)
+    cartitem.delete()
+    return redirect("/cart")
+
+def updateqty(req,qv,productid):
+    allcarts=Cart.objects.filter(productid=productid)
+    if qv=="1":
+        total=allcarts[0].quantity + 1
+        allcarts.update(quantity=total)
+    else:
+        if allcarts[0].quantity>1:
+            total=allcarts[0].quantity - 1
+            allcarts.update(quantity=total)
+        else:
+            allcarts=Cart.objects.filter(productid=productid)
+            allcarts.delete()
+
+    return redirect('/cart')    
+
+def placeorder(req):
+    allcarts = Cart.objects.all()
+    totalprice = 0
+    for x in allcarts:
+        totalprice = totalprice + x.productid.price * x.quantity
+    length = len(allcarts)
+    context = {"allcarts": allcarts, "total": totalprice, "items": length}
+    return render(req, "placeorder.html", context)
+
+def payment(req):
+    client = razorpay.Client(auth=("rzp_test_ABvnCoddVobUGU", "xqaY5agbv5y2fcuL5Bblt7vV"))
+
+    data = { "amount": 500, "currency": "INR", "receipt": "order_rcptid_11" }
+    payment = client.order.create(data=data)
+    return render(req, "payment.html")
