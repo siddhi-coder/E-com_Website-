@@ -236,9 +236,10 @@ def placeorder(req):
         username = req.user.username
         allcarts = Cart.objects.filter(userid = user)
         totalprice = 0
+        orderid = 0
         # Iterate over cart items, calculate total price, and delete cart items
-        orderid = random.randrange(1000,9000)
         for cart_item in allcarts:
+            orderid = random.randrange(1000,9000)
             orderdata = Order.objects.create(
                 orderid = orderid , productid = cart_item.productid , quantity = cart_item.quantity , userid = cart_item.userid
             )
