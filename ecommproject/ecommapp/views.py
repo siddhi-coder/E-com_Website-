@@ -1,3 +1,6 @@
+from datetime import timezone
+import random
+import uuid
 from django.shortcuts import render,redirect , get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate , login , logout
@@ -25,10 +28,11 @@ def loginuser(req):
         else:
             username = uname
             userdata = authenticate(username=uname, password=passwd)
-            context = {"username" : username , "allproducts":allproducts}
+            context = {"username" : username}
             if userdata is not None:
                 login(req, userdata)
-                return render(req,"index.html",context)
+                # return render(req,"index.html",context)
+                return redirect("/")
             else:
                 context['errormessage'] = "Invalid username or password"
                 return render(req, "loginuser.html", context)
@@ -63,47 +67,55 @@ def registeruser(req):
 
 
 def aboutus(req):
-    return render(req, "aboutus.html")
+    username = req.user.username
+    context = {"username":username }
+    return render(req, "aboutus.html",context)
 
 
 def contactus(req):
-    return render(req, "contactus.html")
+    username = req.user.username
+    context = {"username":username }
+    return render(req, "contactus.html" , context)
 
 def userlogout(req):
     logout(req)
     return redirect("/")
 
 def mobile_list_view(req):
+    username = req.user.username
     if req.method == "GET":
         allproducts = Product.prod.mobile_list()
-        context = {"allproducts":allproducts}
+        context = {"allproducts":allproducts , "username":username}
         return render(req,"index.html", context)
     else :
         allproducts = Product.objects.all()
-        context = {"allproducts":allproducts}
+        context = {"allproducts":allproducts , "username":username}
         return render(req,"index.html", context)
 
 def clothes_list_view(req):
+    username = req.user.username
     if req.method == "GET":
         allproducts = Product.prod.clothes_list()
-        context = {"allproducts":allproducts}
+        context = {"allproducts":allproducts , "username":username}
         return render(req,"index.html", context)
     else :
         allproducts = Product.objects.all()
-        context = {"allproducts":allproducts}
+        context = {"allproducts":allproducts , "username":username}
         return render(req,"index.html", context)
 
 def shoes_list_view(req):
+    username = req.user.username
     if req.method == "GET":
         allproducts = Product.prod.shoes_list()
-        context = {"allproducts":allproducts}
+        context = {"allproducts":allproducts , "username":username}
         return render(req,"index.html", context)
     else :
         allproducts = Product.objects.all()
-        context = {"allproducts":allproducts}
+        context = {"allproducts":allproducts , "username":username}
         return render(req,"index.html", context)
     
 def range_view(req):
+    username = req.user.username
     if req.method == 'GET':
         return render(req,'index.html')
     else:
@@ -111,11 +123,11 @@ def range_view(req):
         r2 = req.POST.get("max")
         if r1 is not None and r2 is not None and r1.isdigit() and r2.isdigit():
             allproducts=Product.prod.get_price_range(r1,r2)
-            context = {'allproducts':allproducts}
+            context = {'allproducts':allproducts , "username":username}
             return render(req,'index.html',context)
         else :
             allproducts=Product.objects.all()
-            context = {'allproducts':allproducts}
+            context = {'allproducts':allproducts , "username":username}
             return render(req,'index.html',context)
 
 def allsortorderview(req):
@@ -153,30 +165,47 @@ def searchproduct(req):
 
 # cart
 def cart(req):
-    allcarts = Cart.objects.all()
-    totalprice = 0
-    for i in allcarts:
-        totalprice += i.productid.price * i.quantity
-    length = len(allcarts)
-    context = {'allcarts':allcarts , 
-               "items" :length ,
-               "total" : totalprice}
-    return render(req, "cart.html",context)
+    if req.user.is_authenticated:
+        username = req.user.username
+        allcarts = Cart.objects.filter(userid = req.user.id)
+        totalprice = 0
+        for i in allcarts:
+            totalprice += i.productid.price * i.quantity
+        length = len(allcarts)
+        context = {'allcarts':allcarts , 
+                "items" :length ,
+                "total" : totalprice , 
+                "username":username}
+        return render(req, "cart.html",context)
+    else:
+        allcarts = Cart.objects.filter(userid = req.user.id)
+        totalprice = 0
+        for i in allcarts:
+            totalprice += i.productid.price * i.quantity
+        length = len(allcarts)
+        context = {'allcarts':allcarts , 
+                "items" :length ,
+                "total" : totalprice }
+        return render(req, "cart.html",context)
 
 def addtocart(request, productid):
-    # Assuming productid is the field that uniquely identifies a product
-    allproducts = get_object_or_404(Product, productid=productid)
+        if request.user.is_authenticated:
+            user = request.user
+        else :
+            user = None
+        # Assuming productid is the field that uniquely identifies a product
+        allproducts = get_object_or_404(Product, productid=productid )
 
-    # Use the correct field to filter the cart item
-    cartitem, created = Cart.objects.get_or_create(productid=allproducts)
+        # Use the correct field to filter the cart item
+        cartitem, created = Cart.objects.get_or_create(productid=allproducts , userid=user)
 
-    if not created:
-        cartitem.quantity += 1
-    else:
-        cartitem.quantity = 1
+        if not created:
+            cartitem.quantity += 1
+        else:
+            cartitem.quantity = 1
 
-    cartitem.save()
-    return redirect("/cart")
+        cartitem.save()
+        return redirect("/cart")
 
 def removecart(req, productid):
     cartitem = Cart.objects.filter(productid=productid)
@@ -200,35 +229,39 @@ def updateqty(req,qv,productid):
 
 
 def placeorder(req):
-    allcarts = Cart.objects.all()
-    totalprice = 0
+        if req.user.is_authenticated:
+            user = req.user
+        else :
+            user = None
+        username = req.user.username
+        allcarts = Cart.objects.filter(userid = user)
+        totalprice = 0
+        # Iterate over cart items, calculate total price, and delete cart items
+        orderid = random.randrange(1000,9000)
+        for cart_item in allcarts:
+            orderdata = Order.objects.create(
+                orderid = orderid , productid = cart_item.productid , quantity = cart_item.quantity , userid = cart_item.userid
+            )
+            orderdata.save()
+            totalprice += cart_item.productid.price * cart_item.quantity
+            cart_item.delete()
 
-    for x in allcarts:
-        orderdata = Order.objects.create(
-            orderid = x.orderid , productid = x.productid , quantity = x.quantity
-        )
-        orderdata.save()
-        totalprice += x.productid.price * x.quantity
-        x.delete()
+        # Convert totalprice to paise
+        totalprice_in_paise = int(totalprice * 100)
 
-    # Convert totalprice to paise
-    totalprice_in_paise = int(totalprice * 100)
+        # Get the user associated with the request (assuming you have user authentication)
+        user = req.user if req.user.is_authenticated else None
 
-    length = len(allcarts)
-    context = {"allcarts": allcarts, "total": totalprice, "items": length}
 
-    client = razorpay.Client(auth=("rzp_test_ABvnCoddVobUGU", "xqaY5agbv5y2fcuL5Bblt7vV"))
+        # Create Razorpay order
+        client = razorpay.Client(auth=("rzp_test_ABvnCoddVobUGU", "xqaY5agbv5y2fcuL5Bblt7vV"))
+        data = {"amount": totalprice_in_paise, "currency": "INR", "receipt": "order_rcptid_11"}
+        payment = client.order.create(data=data )
+        length = len(allcarts)
+        # Add payment details to the context
+        context = {"payment": payment, "data": payment ,"allcarts":allcarts, "items" :length ,
+                "total" : totalprice , "username":user}
 
-    # Provide the correct amount in paise
-    data = {"amount": totalprice_in_paise, "currency": "INR", "receipt": "order_rcptid_11"}
-    
-    # Create Razorpay order
-    payment = client.order.create(data=data)
-    
-    # Add payment details to the context
-    context["payment"] = payment
-    context["data"] = payment
-
-    # Ensure that only necessary parameters are passed to the render function
-    return render(req, "placeorder.html", context)
+        # Render the template with the context
+        return render(req, "placeorder.html", context)
 
