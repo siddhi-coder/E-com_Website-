@@ -270,7 +270,17 @@ def showorders(req):
     if req.user.is_authenticated:
         user = req.user
         allorders = Order.objects.filter(userid = user)
-        context={'username': user , 'allorders' : allorders}
+        length = len(allorders)
+        totalprice = 0
+        orderid = 0
+            # Iterate over cart items, calculate total price, and delete cart items
+        for cart_item in allorders:
+                totalprice += cart_item.productid.price * cart_item.quantity
+
+            # Convert totalprice to paise
+        totalprice_in_paise = int(totalprice * 100)
+        context={'username': user , 'allorders' : allorders ,"items" :length ,
+                    "total" : totalprice }
         return render(req,'orders.html',context)
     else : 
         user = None

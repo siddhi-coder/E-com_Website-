@@ -1,3 +1,37 @@
 {% include 'header.html' %}
-<h1>Show Orders</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-9 p-3">
+        <table class="table table-bordered">
+            <thead class="table-danger">
+              <tr>  
+                <th scope="col">Order ID</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Product Image</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for x in allorders %}
+              <tr>
+                <th scope="row">{{x.orderid}}</th>
+                <td>{{x.productid.product_name}}</td>
+                <td><img src="{{x.productid.image.url}}" width="150" height ="150" alt="{{x.productid.image}}"></td>
+                <td>{{x.productid.price}}</td>
+                <td>{{x.quantity}}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-3 bg-light p-3">
+            <h5 class="bg-danger text-white p-2">Total Amount Paid</h5>
+            <p><strong>Total ({{items}}):</strong> Rs. {{total}} </p>
+            <hr>
+            <p><strong>Total Amount:</strong> Rs. {{total}} </p>
+    </div>
+</div>
+</div>
+
 {% include 'footer.html' %}
