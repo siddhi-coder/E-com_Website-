@@ -231,38 +231,47 @@ def updateqty(req,qv,productid):
 def placeorder(req):
         if req.user.is_authenticated:
             user = req.user
+            allcarts = Cart.objects.filter(userid = user)
+            totalprice = 0
+            orderid = 0
+            # Iterate over cart items, calculate total price, and delete cart items
+            for cart_item in allcarts:
+                orderid = random.randrange(1000,9000)
+                orderdata = Order.objects.create(
+                    orderid = orderid , productid = cart_item.productid , quantity = cart_item.quantity , userid = cart_item.userid
+                )
+                orderdata.save()
+                totalprice += cart_item.productid.price * cart_item.quantity
+                cart_item.delete()
+
+            # Convert totalprice to paise
+            totalprice_in_paise = int(totalprice * 100)
+
+            # Get the user associated with the request (assuming you have user authentication)
+            user = req.user if req.user.is_authenticated else None
+
+            # Create Razorpay order
+            client = razorpay.Client(auth=("rzp_test_ABvnCoddVobUGU", "xqaY5agbv5y2fcuL5Bblt7vV"))
+            data = {"amount": totalprice_in_paise, "currency": "INR", "receipt": "order_rcptid_11"}
+            payment = client.order.create(data=data )
+            length = len(allcarts)
+            # Add payment details to the context
+            context = {"username":user,"payment": payment, "data": payment ,"allcarts":allcarts, "items" :length ,
+                    "total" : totalprice }
+
+            # Render the template with the context
+            return render(req, "placeorder.html", context)
         else :
-            user = None
-        username = req.user.username
-        allcarts = Cart.objects.filter(userid = user)
-        totalprice = 0
-        orderid = 0
-        # Iterate over cart items, calculate total price, and delete cart items
-        for cart_item in allcarts:
-            orderid = random.randrange(1000,9000)
-            orderdata = Order.objects.create(
-                orderid = orderid , productid = cart_item.productid , quantity = cart_item.quantity , userid = cart_item.userid
-            )
-            orderdata.save()
-            totalprice += cart_item.productid.price * cart_item.quantity
-            cart_item.delete()
-
-        # Convert totalprice to paise
-        totalprice_in_paise = int(totalprice * 100)
-
-        # Get the user associated with the request (assuming you have user authentication)
-        user = req.user if req.user.is_authenticated else None
+            user = None 
+            return redirect("/loginuser")
 
 
-        # Create Razorpay order
-        client = razorpay.Client(auth=("rzp_test_ABvnCoddVobUGU", "xqaY5agbv5y2fcuL5Bblt7vV"))
-        data = {"amount": totalprice_in_paise, "currency": "INR", "receipt": "order_rcptid_11"}
-        payment = client.order.create(data=data )
-        length = len(allcarts)
-        # Add payment details to the context
-        context = {"payment": payment, "data": payment ,"allcarts":allcarts, "items" :length ,
-                "total" : totalprice , "username":user}
-
-        # Render the template with the context
-        return render(req, "placeorder.html", context)
-
+def showorders(req):
+    if req.user.is_authenticated:
+        user = req.user
+        allorders = Order.objects.filter(userid = user)
+        context={'username': user , 'allorders' : allorders}
+        return render(req,'orders.html',context)
+    else : 
+        user = None
+        return redirect("/loginuser")

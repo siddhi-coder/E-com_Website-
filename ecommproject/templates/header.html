@@ -67,6 +67,7 @@
                   <li class="nav-item">
                     <a class="nav-link active" href="{% url 'userlogout' %}" aria-current="page">Logout</a>
                   </li>
+                  
                 {% else %}
                   <li class="nav-item">
                     <a
@@ -101,6 +102,11 @@
                     >About Us</a
                   >
                 </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="nav-link active" href="{% url 'showorders' %}" aria-current="page"> My Orders</a>
+                </li>
+                {% endif %}
               </ul>
               {% if username %}
               <strong class="text-white p-3">
