@@ -287,6 +287,16 @@ def showorders(req):
         user = None
         return redirect("/loginuser")
     
+def showproducts(req):
+    if req.user.is_authenticated:
+        user = req.user
+        allproducts = Product.objects.filter(userid = user)
+        context = {'username': user ,'allproducts':allproducts}
+        return render(req,'showproduct.html',context)
+    else : 
+        user = None
+        return redirect("/loginuser")
+    
 def registerproduct(req):
     if req.user.is_authenticated:
         user = req.user

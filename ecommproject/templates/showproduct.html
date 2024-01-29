@@ -1,0 +1,36 @@
+{% include 'header.html' %}
+<title>My Products</title>
+<div class="container-fluid">
+        <h2 class="p-3">My Products</h2>
+        <table class="table table-bordered">
+            <thead class="table-danger">
+              <tr>  
+                <th scope="col">User Name</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Product Image</th>
+                <th scope="col">Price</th>
+                <th scope="col">Category</th>
+                <th scope="col" style="width: 370px;">Description</th>
+                <th scope="col" style="width: 180px;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for x in allproducts %}
+              <tr>
+                <th scope="row">{{x.userid}}</th>
+                <td>{{x.product_name}}</td>
+                <td><img src="{{x.image.url}}" width="150" height ="150" alt="{{x.productid.image}}"></td>
+                <td>{{x.price}}</td>
+                <td>{{x.category}}</td>
+                <td>{{x.description}}</td>
+                <td>
+                  <a href="#" class="btn btn-danger">Update</a>
+                  <a href="#" class="btn btn-danger">Delete</a>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+{% include 'footer.html' %}

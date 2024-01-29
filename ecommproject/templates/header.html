@@ -42,26 +42,6 @@
                     >Home</a
                   >
                 </li>
-
-                <li class="nav-item dropdown active">
-                  <a
-                    class="nav-link dropdown-toggle active"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Category
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="{% url 'mobile_list_view' %}">Mobiles</a></li>
-                    <li><a class="dropdown-item" href="#">Laptops</a></li>
-                    <li><a class="dropdown-item" href="#">Cloths</a></li>
-                    <li><a class="dropdown-item" href="#">Earbuds</a></li>
-                    <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" href="#">Groceries</a></li>
-                  </ul>
-                </li>
                 
                 {% if user.is_authenticated %}
                   <li class="nav-item">
@@ -105,6 +85,9 @@
                 {% if user.is_authenticated %}
                 <li class="nav-item">
                   <a class="nav-link active" href="{% url 'showorders' %}" aria-current="page"> My Orders</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" href="{% url 'showproducts' %}" aria-current="page"> My Products</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link active" href="{% url 'registerproduct' %}" aria-current="page"> Become a Seller</a>
