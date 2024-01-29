@@ -1,0 +1,16 @@
+{% include 'header.html' %}
+<title>Register Seller</title>
+<div class="container-fluid">
+    <div class="row">
+        <h2>Register Product</h2>
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table>
+                {form.as_table}
+            </table>
+            <br>
+            <input type="submit" value="Register">    
+        </form>
+    </div>
+</div>
+{% include 'footer.html' %}

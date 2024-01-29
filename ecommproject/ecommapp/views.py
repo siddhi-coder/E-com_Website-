@@ -285,3 +285,6 @@ def showorders(req):
     else : 
         user = None
         return redirect("/loginuser")
+    
+def registerproduct(req):
+    return render(req,"registerproduct.html")
