@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate , login , logout
 from .models import Product , Cart , Order
 from django.db.models import Q
 import razorpay
+from ecommapp.forms import ViewProduct
 
 
 def index(req):
@@ -287,4 +288,17 @@ def showorders(req):
         return redirect("/loginuser")
     
 def registerproduct(req):
-    return render(req,"registerproduct.html")
+    if req.user.is_authenticated:
+        user = req.user
+        if req.method =="GET":
+            form = ViewProduct()
+            return render(req,"registerproduct.html" , {'form':form ,'username':user})
+        else : 
+            form = ViewProduct(req.POST ,  req.FILES or None)
+            if form.is_valid():
+                form.save()
+                return redirect("/")
+            else : 
+                return render(req,"registerproduct.html" , {'form':form ,'username':user})
+    else:
+        return redirect("/loginuser")
