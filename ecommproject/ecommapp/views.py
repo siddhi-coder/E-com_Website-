@@ -322,3 +322,18 @@ def deleteregisterproduct(req , productid):
             return redirect("showproducts")
         else:
             return redirect("/loginuser")
+def updateregisterproduct(req , productid):
+       if req.user.is_authenticated:
+        user = req.user
+        if req.method =="GET":
+            form = ViewProduct()
+            return render(req,"registerproduct.html" , {'form':form ,'username':user})
+        else : 
+            form = ViewProduct(req.POST ,  req.FILES or None)
+            if form.is_valid():
+                form.save()
+                return redirect("/")
+            else : 
+                return render(req,"registerproduct.html" , {'form':form ,'username':user})
+    else:
+        return redirect("/loginuser")
