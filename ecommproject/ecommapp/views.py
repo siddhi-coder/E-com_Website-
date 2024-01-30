@@ -312,3 +312,13 @@ def registerproduct(req):
                 return render(req,"registerproduct.html" , {'form':form ,'username':user})
     else:
         return redirect("/loginuser")
+    
+def deleteregisterproduct(req , productid):
+        if req.user.is_authenticated:
+            user = req.user
+            myproducts = Product.objects.filter(userid = user , productid = productid)
+            myproducts.delete()
+            context = {"myproducts":myproducts , 'username':user}
+            return redirect("showproducts")
+        else:
+            return redirect("/loginuser")
