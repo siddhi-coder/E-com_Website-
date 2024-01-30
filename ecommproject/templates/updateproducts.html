@@ -3,16 +3,12 @@
 <div class="container-fluid">
     <div class="row">
         <h2>Update Product</h2>
-        {% for item in myproducts %}
-        <form action="" method="post" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <table>
-                {{form.as_table}}
-            </table>
-            <br>
-            <input type="submit" value="Update">    
+            {{ form.as_p }}
+            <button type="submit">Update Product</button>
         </form>
-        {% endfor %}
+        
     </div>
 </div>
 {% include 'footer.html' %}

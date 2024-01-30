@@ -228,7 +228,8 @@ def updateqty(req,qv,productid):
 
     return redirect('/cart')    
 
-
+from django.conf import settings
+from django.core.mail import send_mail
 def placeorder(req):
         if req.user.is_authenticated:
             user = req.user
@@ -259,6 +260,11 @@ def placeorder(req):
             # Add payment details to the context
             context = {"username":user,"payment": payment, "data": payment ,"allcarts":allcarts, "items" :length ,
                     "total" : totalprice }
+            subject = 'Shopworks Status'
+            message = f'Hii {user} , Thank you for using our services \n Total Amount Paid ={totalprice}Rs/- '
+            emailfrom = settings.EMAIL_HOST_USER
+            receiver = [user]
+            send_mail(subject , message , emailfrom , receiver)
 
             # Render the template with the context
             return render(req, "placeorder.html", context)
@@ -297,7 +303,7 @@ def showproducts(req):
         user = None
         return redirect("/loginuser")
     
-def registerproduct(req):
+def registerproduct(req ):
     if req.user.is_authenticated:
         user = req.user
         if req.method =="GET":
@@ -327,15 +333,15 @@ def updateproducts(req , productid):
         user = req.user
         myproducts = get_object_or_404(Product , productid = productid)
         if  req.method == "POST":
-            form = ViewProduct(req.POST , req.FILES , instance=ViewProduct)
+            form = ViewProduct(req.POST, req.FILES, instance=myproducts)
             if form.is_valid():
                 form.save()
                 return redirect('showproducts')
         else : 
-            form = ViewProduct(instance=ViewProduct)
+            form = ViewProduct(instance=myproducts)
         
-        context ={"form":form, 'data':{myproducts} , 'username':user}
-        return render(req,'updateproduct.html',context)
+        context = {"form": form, 'data': [myproducts], 'username': user}
+        return render(req,'updateproducts.html',context)
     else :
         return redirect("/loginuser")
 
