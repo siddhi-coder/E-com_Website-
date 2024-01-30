@@ -1,0 +1,18 @@
+{% include 'header.html' %}
+<title>Update a Product</title>
+<div class="container-fluid">
+    <div class="row">
+        <h2>Update Product</h2>
+        {% for item in myproducts %}
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table>
+                {{form.as_table}}
+            </table>
+            <br>
+            <input type="submit" value="Update">    
+        </form>
+        {% endfor %}
+    </div>
+</div>
+{% include 'footer.html' %}

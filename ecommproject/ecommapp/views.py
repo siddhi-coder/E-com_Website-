@@ -323,18 +323,18 @@ def deleteregisterproduct(req , productid):
         else:
             return redirect("/loginuser")
 def updateregisterproduct(req , productid):
-       if req.user.is_authenticated:
-        user = req.user
-        myproducts = Product.objects.filter(userid = user , productid = productid)
-        if req.method =="GET":
-            form = ViewProduct()
-            return render(req,"registerproduct.html" , {'form':form ,'username':user})
-        else : 
-            form = ViewProduct(req.POST ,  req.FILES or None)
-            if form.is_valid():
-                form.save()
-                return redirect("/")
+        if req.user.is_authenticated:
+            user = req.user
+            myproducts = Product.objects.filter(userid = user , productid = productid)
+            if req.method =="GET":
+                form = ViewProduct()
+                return render(req,"updateproducts.html" , {'form':form ,'username':user ,'myproducts':myproducts})
             else : 
-                return render(req,"registerproduct.html" , {'form':form ,'username':user})
-    else:
-        return redirect("/loginuser")
+                form = ViewProduct(req.POST ,  req.FILES or None)
+                if form.is_valid():
+                    form.save()
+                    return redirect("/")
+                else : 
+                    return render(req,"registerproduct.html" , {'form':form ,'username':user})
+        else:
+            return redirect("/loginuser")
