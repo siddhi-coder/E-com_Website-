@@ -5,19 +5,19 @@
         <table class="table table-bordered">
             <thead class="table-danger">
               <tr>  
-                <th scope="col">User Name</th>
+                <th scope="col">Product ID</th>
                 <th scope="col">Product Name</th>
                 <th scope="col">Product Image</th>
                 <th scope="col">Price</th>
                 <th scope="col">Category</th>
-                <th scope="col" style="width: 370px;">Description</th>
+                <th scope="col" style="width: 430px;">Description</th>
                 <th scope="col" style="width: 180px;">Action</th>
               </tr>
             </thead>
             <tbody>
             {% for x in allproducts %}
               <tr>
-                <th scope="row">{{x.userid}}</th>
+                <td>{{x.productid}}</td>
                 <td>{{x.product_name}}</td>
                 <td><img src="{{x.image.url}}" width="150" height ="150" alt="{{x.productid.image}}"></td>
                 <td>{{x.price}}</td>
