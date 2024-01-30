@@ -325,6 +325,7 @@ def deleteregisterproduct(req , productid):
 def updateregisterproduct(req , productid):
        if req.user.is_authenticated:
         user = req.user
+        myproducts = Product.objects.filter(userid = user , productid = productid)
         if req.method =="GET":
             form = ViewProduct()
             return render(req,"registerproduct.html" , {'form':form ,'username':user})
