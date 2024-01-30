@@ -336,4 +336,7 @@ def updateproducts(req , productid):
         
         context ={"form":form, 'data':{myproducts} , 'username':user}
         return render(req,'updateproduct.html',context)
+    else :
+        return redirect("/loginuser")
+
        
