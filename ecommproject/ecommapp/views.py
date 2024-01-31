@@ -302,20 +302,20 @@ def showproducts(req):
     else : 
         user = None
         return redirect("/loginuser")
-    
-def registerproduct(req ):
+def registerproduct(req):
     if req.user.is_authenticated:
         user = req.user
-        if req.method =="GET":
-            form = ViewProduct()
-            return render(req,"registerproduct.html" , {'form':form ,'username':user})
-        else : 
-            form = ViewProduct(req.POST ,  req.FILES or None)
+        if req.method == "GET":
+            form = ViewProduct(user=user)
+            return render(req, "registerproduct.html", {'form': form, 'username': user})
+        else:
+            form = ViewProduct(req.POST, req.FILES or None)
+
             if form.is_valid():
                 form.save()
                 return redirect("/")
-            else : 
-                return render(req,"registerproduct.html" , {'form':form ,'username':user})
+            else:
+                return render(req, "registerproduct.html", {'form': form, 'username': user})
     else:
         return redirect("/loginuser")
     
