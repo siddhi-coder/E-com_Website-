@@ -28,6 +28,7 @@ class AdminOrder (admin.ModelAdmin):
         "orderid",
         "quantity",
         "status",
+        "receipt",
     )
 
 admin.site.register(Product,AdminProduct)

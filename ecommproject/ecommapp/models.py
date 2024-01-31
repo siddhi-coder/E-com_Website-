@@ -37,6 +37,7 @@ class Order(models.Model):
     userid = models.ForeignKey(User , on_delete = models.CASCADE , null = True , blank = True)
     productid = models.ForeignKey(Product,on_delete = models.CASCADE , null = True , blank = True)
     orderid = models.IntegerField(primary_key = True)
+    receipt = models.CharField(max_length = 50 ,default = 0)
     quantity = models.PositiveIntegerField(default = 0)
     status = (("Pending" , "Pending") , ("Out for Delivery","Out for Delivery") , ("Deliverd" , "Deliverd"))
 

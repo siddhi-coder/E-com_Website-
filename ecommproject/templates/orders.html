@@ -11,6 +11,7 @@
                 <th scope="col">Product Image</th>
                 <th scope="col">Price</th>
                 <th scope="col">Quantity</th>
+                <th scope="col">Receipt</th>
               </tr>
             </thead>
             <tbody>
@@ -21,6 +22,7 @@
                 <td><img src="{{x.productid.image.url}}" width="150" height ="150" alt="{{x.productid.image}}"></td>
                 <td>{{x.productid.price}}</td>
                 <td>{{x.quantity}}</td>
+                <td>{{x.receipt}}</td>
               </tr>
             {% endfor %}
             </tbody>
