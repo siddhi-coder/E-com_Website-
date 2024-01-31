@@ -5,13 +5,13 @@ from .models import Product
 class ViewProduct(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['userid', 'product_name', 'category', 'description', 'price', 'image']
+        fields = [ 'product_name', 'category', 'description', 'price', 'image']
 
-    def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user', None)  
-        super(ViewProduct, self).__init__(*args, **kwargs)
+    # def __init__(self, *args, **kwargs):
+    #     user = kwargs.pop('user', None)  
+    #     super(ViewProduct, self).__init__(*args, **kwargs)
 
-        if user:
-            self.fields['userid'].initial = user.id
-            self.fields['userid'].queryset = User.objects.filter(pk=user.id)
+    #     if user:
+    #         self.fields['userid'].initial = user.id
+    #         self.fields['userid'].queryset = User.objects.filter(pk=user.id)
 
