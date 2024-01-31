@@ -306,7 +306,7 @@ def registerproduct(req):
     if req.user.is_authenticated:
         user = req.user
         if req.method == "GET":
-            form = ViewProduct()
+            form = ViewProduct(user=user)
             return render(req, "registerproduct.html", {'form': form, 'username': user})
         else:
             form = ViewProduct(req.POST, req.FILES or None)
@@ -339,7 +339,7 @@ def updateproducts(req, productid):
                 form.save()
                 return redirect('showproducts')
         else:
-            form = ViewProduct(instance=myproducts)
+            form = ViewProduct(instance=myproducts , user=user)
 
         context = {"form": form, 'data': [myproducts], 'username': user}
         return render(req, 'updateproducts.html', context)
