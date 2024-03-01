@@ -79,9 +79,8 @@
                       <i class="bi bi-facebook text-danger"></i>
                     </button>
   
-                    <button type="button" class="btn btn-link btn-floating mx-1">
-                      <i class="bi bi-google text-danger"></i>
-                    </button>
+                    <a href="{% url 'social:begin' 'google-oauth2' %}">Google</a>
+<a href="{% url 'social:begin' backend='facebook' %}">Facebook</a
   
                     <button type="button" class="btn btn-link btn-floating mx-1">
                       <i class="bi bi-twitter text-danger"></i>

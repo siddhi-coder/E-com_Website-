@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path , include
 from ecommapp import views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -43,5 +43,6 @@ urlpatterns = [
     path("showproducts/", views.showproducts, name="showproducts"),
     path("registerproduct/", views.registerproduct, name="registerproduct"),
     path('updateproducts/<int:productid>/', views.updateproducts, name='updateproducts'),
+    path('social-auth', include('social_django.urls', namespace='social')),
     path('deleteregisterproduct/<int:productid>/', views.deleteregisterproduct, name='deleteregisterproduct'),
 ]+static(settings.MEDIA_URL , document_root  = settings.MEDIA_ROOT)
